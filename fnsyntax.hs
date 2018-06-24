@@ -54,7 +54,7 @@ tell (x:[]) = "The list has one element: " ++ show x -- [x] also valid - syntact
 tell (x:y:[]) = "The list has two elements: " ++ show x ++ " and " ++ show y -- [x,y] also valid
 tell (x:y:_) = " This list is long. This first two elements are: " ++ show x ++ " and " ++ show y
 -- Note: can't rewrite (x:y:_) with square brackets because it matches any list of length 2 or more.
-
+-- x:y:[] means literally [x,y], where the _ is a variable which in this case would hold the rest of the list
 
 -- λ Implementing Length with PM and Recursion --
 length' :: (Num b) => [a] -> b -- Takes in a list of any type 'a', returns a length in type 'Num'
