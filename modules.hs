@@ -30,3 +30,12 @@ import Data.List -- All functions from Data.List are now available in the global
 -- import qualified Data.Map as M
 
 -- now we could do M.filter
+
+
+-- Resources --
+
+-- Haskell standlard library documentation:
+-- https://downloads.haskell.org/~ghc/latest/docs/html/libraries/
+
+-- Hoogle: Haskell API search engine; search by name, type signature, etc!
+-- https://www.haskell.org/hoogle/ 
