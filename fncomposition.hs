@@ -1,4 +1,4 @@
---λ Function Composition --
+-- λ Function Composition --
 
 -- In Mathematics, fn composition is defined like this:
 -- (f ∘ g)(x) => f((g(x))) meaning that compositing two fns produces
