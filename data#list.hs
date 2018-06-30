@@ -1,5 +1,6 @@
 -- λ Data.List --
 import Data.List
+import Data.Function (on)
 
 -- Note: No need for qualified imports as the fns that 'clash' are actually just taken from Data.List by Prelude
 
@@ -216,3 +217,36 @@ int1 = [1..7] `intersect` [5..10] -- [5,6,7]
 -- and inserts it into the last position where it's still <= the next element
 ins1 = insert 4 [3,5,1,2,8,2] -- [3,4,5,1,2,8,2]
 ins2 = insert 4 [1,3,4,4,1] -- [1,3,4,4,4,1]
+-- If insert is used in a sorted list, the resulting list stays sorted
+-- insert 4 [1,2,3,5,6,7] -- [1,2,3,4,5,6,7]
+
+-- length, take, drop, !! and replicate all take Int instead of a more generic Num or Integral
+-- Data.List has generic equivalents: genericLength, genericTake, genericDrop, genericSplitAt
+-- genericIndex and genericReplicate, these take a Num type
+
+-- nub, delete, union, intersect and group have more general counterparts:
+-- nubBy, deleteBy, unionBy, intersectBy, groupBy which take takes an equality function
+-- group is the same as groupBy (==)
+-- ex:we have a list that describe values for every second which we want to segment
+-- based on when the value was <0 and when it was >0:
+values = [-4.3, -2.4, -1.2, 0.4, 2.3, 5.9, 10.5, 29.1, 5.3, -2.4, -14.5, 2.9, 2.3]
+groupby = groupBy (\x y -> (x>0) == (y>0)) values
+-- instead of checking if adjacent values are equal (==), we check if they are both below or above 0
+
+-- λ on:
+-- on :: (b -> b -> c) -> (a -> b) -> a -> a -> c
+-- f `on` g = \x y -> f (g x) (g y)
+-- doing (==) `on` (>0) returns an equality fn that looks like \x y -> (x>0) == (y>0)
+--ex:
+groupby2 = groupBy ((==) `on` (> 0)) values
+-- Read as: Group this by equality on whether the elements are >0
+
+-- λ sortBy, insertBy, maximumBy, minimumBy: all more general versions of their
+-- non-suffixed implementations. They all take a fn to operate on. sort = sortBy compare
+
+-- sort a list of lists by length:
+xs = [[5,4,5,4,4],[1,2,3],[3,5,4,3],[],[2],[2,2]]
+xss = sortBy (compare `on` length) xs -- [[],[2],[2,2],[1,2,3],[3,5,4,3],[5,4,5,4,4]]
+-- compare `on` length => \x y -> length x `compare` length y
+-- when dealing with 'by' fns that take an equality fn, usually do (==) `on` something
+-- when ordering fn, usually do compare `on` something
